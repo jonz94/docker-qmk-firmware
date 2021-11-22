@@ -1,0 +1,36 @@
+name: create tag if QMK Firmware has new tag
+
+on:
+  # runs every 6 hours
+  schedule:
+    - cron: "0 */6 * * *"
+  # allow manually trigger
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.WORKFLOW_PERSONAL_ACCESS_TOKEN }}
+      - name: magic 😎
+        run: |
+          # find the latest tag
+          LATEST_TAG=$(curl -fsSL 'https://shields.io/github/v/tag/qmk/qmk_firmware.json?sort=semver' | awk -F 'value' '{print $2}' | cut -d '"' -f 3 | cut -d 'v' -f 2)
+          echo latest tag of qmk/qmk_firmware is ${LATEST_TAG}
+
+          # check if we already have a matching tag
+          if git rev-parse ${LATEST_TAG} >/dev/null 2>&1; then
+            echo everything is up to date
+            exit 0
+          fi
+
+          echo ${LATEST_TAG} tag does not exist, tag it to trigger next action.
+
+          echo ${LATEST_TAG} > VERSION
+
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          make

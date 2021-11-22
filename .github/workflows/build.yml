@@ -1,0 +1,32 @@
+name: build and push image
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build:
+    name: build and push image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: docker meta
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: jonz94/qmk_firmware
+
+      - name: login to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: jonz94
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
