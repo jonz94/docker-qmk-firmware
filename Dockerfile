@@ -1,6 +1,6 @@
 FROM qmkfm/qmk_cli
 
-ENV QMK_FIRMWARE_VERSION=alid
+ENV QMK_FIRMWARE_VERSION=0.15.15
 
 RUN git clone \
   -b ${QMK_FIRMWARE_VERSION} \
