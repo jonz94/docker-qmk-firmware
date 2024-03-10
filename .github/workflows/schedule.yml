@@ -33,13 +33,13 @@ jobs:
           # check if we already have a matching tag
           if git rev-parse ${LATEST_TAG} >/dev/null 2>&1; then
             echo ${LATEST_TAG} tag exists, do nothing.
-            echo "::set-output name=should-update::false"
+            echo "should-update=false" >> $GITHUB_OUTPUT
             exit 0
           fi
 
           echo a newer version is available
-          echo "::set-output name=should-update::true"
-          echo "::set-output name=latest-tag::${LATEST_TAG}"
+          echo "should-update=true" >> $GITHUB_OUTPUT
+          echo "latest-tag=${LATEST_TAG}" >> $GITHUB_OUTPUT
 
   tag:
     needs: check
