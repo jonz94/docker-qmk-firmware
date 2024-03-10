@@ -14,7 +14,7 @@ jobs:
       should-update: ${{ steps.check.outputs.should-update }}
       latest-tag: ${{ steps.check.outputs.latest-tag }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: check
@@ -46,7 +46,7 @@ jobs:
     if: ${{ needs.check.outputs.should-update == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
           token: ${{ secrets.WORKFLOW_PERSONAL_ACCESS_TOKEN }}

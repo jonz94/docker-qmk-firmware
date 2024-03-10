@@ -10,22 +10,22 @@ jobs:
     name: build and push image
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: docker meta
         id: meta
-        uses: docker/metadata-action@v4
+        uses: docker/metadata-action@v5
         with:
           images: jonz94/qmk_firmware
 
       - name: login to Docker Hub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: jonz94
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v5
         with:
           context: .
           push: true
