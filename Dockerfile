@@ -1,6 +1,6 @@
 FROM qmkfm/qmk_cli
 
-ENV QMK_FIRMWARE_VERSION=inaccessible
+ENV QMK_FIRMWARE_VERSION=0.34.0
 
 RUN git clone \
   -b ${QMK_FIRMWARE_VERSION} \
